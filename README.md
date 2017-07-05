@@ -75,11 +75,40 @@ At each batch, we want to take the state for the given user and concat both old 
 
                         val kafkaStream =
             KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
-
                     kafkaStream
                       .map(deserializeUserEvent)
                       .updateStateByKey(updateUserEvents)
+             
+The first `map` is for parsing the JSON to a tuple of `(Int, UserEvent)`, where the Int is `UserEvent.id`. Then we pass the tuple to our `updateStateByKey` to do the rest.
+
+## Drawbacks of `updateStateByKey`:
+
+A major downside of using
+<code class="highlighter-rouge">updateStateByKey</code>
+is the fact that for each new incoming batch, the transformation iterates
+<strong>the entire state store</strong>
+, regardless of whether a new value for a given key has been consumed or not. This can effect performance especially when dealing with a large amount of state over time. There are
+<a href="http://spark.apache.org/docs/latest/streaming-programming-guide.html#reducing-the-batch-processing-times">various ways to improving performance</a>
+, but this still is a pain point.
+
+No built in timeout mechanism - Think what would happen in our example, if the event signaling the end of the user session was lost, or hadn’t arrived for some reason. One upside to the fact
+<code class="highlighter-rouge">updateStateByKey</code>
+iterates all keys is that we can implement such a timeout ourselves, but this should definitely be a feature of the framework.
                       
+What you receive is what you return - Since the return value from
+<code class="highlighter-rouge">updateStateByKey</code>
+is the same as the state we’re storing. In our case
+<code class="highlighter-rouge">Option[UserSession]</code>
+, we’re forced to return it downstream. But what happens if once the state is completed, I want to output a different type and use that in another transformation? Currently, that’s not possible.
+
+## Advantages of mapWithState:
+
+code class="highlighter-rouge">mapWithState</code>
+is
+<code class="highlighter-rouge">updateStateByKey</code>
+s successor released in Spark 1.6.0 as an
+<em>experimental API</em>
+. It’s the lessons learned down the road from working with stateful streams in Spark, and brings with it new and promising goods.
 
 
                  
