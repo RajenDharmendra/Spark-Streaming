@@ -1,0 +1,5 @@
+package com.github.rajendharmendra.sparkstreaming.configuration
+
+case class SparkConfiguration(sparkMasterUrl: String,
+                              checkpointDirectory: String,
+                              timeoutInMinutes: Int)
