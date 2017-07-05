@@ -101,7 +101,7 @@ is the same as the state we’re storing. In our case
 <code class="highlighter-rouge">Option[UserSession]</code>
 , we’re forced to return it downstream. But what happens if once the state is completed, I want to output a different type and use that in another transformation? Currently, that’s not possible.
 
-## Advantages of mapWithState:
+## Advantages of `mapWithState` over `updateStateByKey`  :
 
 code class="highlighter-rouge">mapWithState</code>
 is
@@ -109,6 +109,11 @@ is
 s successor released in Spark 1.6.0 as an
 <em>experimental API</em>
 . It’s the lessons learned down the road from working with stateful streams in Spark, and brings with it new and promising goods.
+
+<code class="highlighter-rouge">mapWithState</code>
+comes with features we’ve been missing from
+<code class="highlighter-rouge">updateStateByKey</code>
+:
 
 
                  
