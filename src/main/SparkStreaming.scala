@@ -1,5 +1,5 @@
 
-package com.github.rajendharmendra.sparkstreaming.stateful
+package com.github.rajendharmendra.sparkstreaming.sparkstreaming
 
 package com.github.rajendharmendra.sparkstreaming.configuration
 import org.apache.spark.SparkContext
