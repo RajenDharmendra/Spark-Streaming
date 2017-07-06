@@ -103,7 +103,7 @@ is the same as the state we’re storing. In our case
 
 ## Advantages of `mapWithState` over `updateStateByKey`  :
 
-code class="highlighter-rouge">mapWithState</code>
+<code class="highlighter-rouge">mapWithState</code>
 is
 <code class="highlighter-rouge">updateStateByKey</code>
 s successor released in Spark 1.6.0 as an
