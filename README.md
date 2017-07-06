@@ -391,5 +391,5 @@ From the documentation of <code class="highlighter-rouge">State.remove</code>:</
 </div>
 
 <p>I’ve extracted the updating of the user actions to a local method, <code class="highlighter-rouge">updateUserSession</code>, which we call if we’re invoked as a result
-of a new incoming value. or else, we’re timing out the need to return user events we’ve accumulated so far.</p>
+of a new incoming value or else, we’re timing out the need to return user events we’ve accumulated so far.</p>
 
